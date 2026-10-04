@@ -1,0 +1,14 @@
+# private material — never publish
+linkedin/
+LINKEDIN_AUDIT.md
+PROGRESS.md
+DECISIONS.md
+
+# os junk
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# editor junk
+*.swp
+*~
