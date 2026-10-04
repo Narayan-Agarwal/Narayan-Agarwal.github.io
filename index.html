@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<!--
+  narayan agarwal — personal portfolio
+  plain HTML + CSS + vanilla JS. no framework, no build step.
+  to edit content: search this file for the section you want
+  (each one is marked with a comment banner below).
+-->
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>narayan agarwal — data &amp; ml portfolio</title>
+  <meta name="description" content="Portfolio of Narayan Agarwal — final-year CS undergraduate at VSSUT Burla building data and machine-learning projects with Python and PostgreSQL: AQI forecasting, esports analytics, job-market intelligence and BGP/RPKI routing security.">
+  <link rel="canonical" href="https://narayan-agarwal.github.io/">
+
+  <!-- Open Graph / social preview -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://narayan-agarwal.github.io/">
+  <meta property="og:title" content="narayan agarwal — data &amp; ml portfolio">
+  <meta property="og:description" content="Data and machine-learning projects built with Python and PostgreSQL — AQI forecasting, esports analytics, job-market intelligence and BGP/RPKI security.">
+  <meta property="og:image" content="https://narayan-agarwal.github.io/photo.jpg">
+  <meta property="og:image:alt" content="Portrait of Narayan Agarwal">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#101010">
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  <!-- One Google Font (Space Grotesk) + system fallback is in the CSS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap">
+
+  <!-- Apply the saved theme BEFORE first paint so the page never flashes -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (t === "light" || t === "dark") {
+          document.documentElement.setAttribute("data-theme", t);
+        }
+      } catch (e) { /* private mode: default dark is fine */ }
+    })();
+  </script>
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">skip to content</a>
+
+  <!-- Signature effect: drifting particle field behind everything (see script.js).
+       It is hidden entirely for prefers-reduced-motion users. -->
+  <canvas id="particles" aria-hidden="true"></canvas>
+
+  <header class="site-head">
+    <a class="brand" href="#top">narayan agarwal</a>
+    <nav class="site-nav" aria-label="primary">
+      <a href="#about">about</a>
+      <a href="#projects">projects</a>
+      <a href="#contact">contact</a>
+    </nav>
+    <button id="theme-toggle" type="button" aria-label="toggle light / dark theme">theme: dark</button>
+  </header>
+
+  <main id="main">
+
+    <!-- ============================== HERO ============================== -->
+    <section class="hero" id="top" aria-label="introduction">
+      <p class="hero-kicker">final-year cs undergrad · vssut burla · sambalpur, odisha</p>
+      <!-- <wbr> = optional line break: phones wrap neatly after the dot,
+           desktop keeps it on one line -->
+      <h1 class="hero-name">narayan<span class="accent">.</span><wbr>agarwal</h1>
+      <p class="hero-line">
+        i build data and machine-learning projects with python and postgresql —
+        etl pipelines, ml models and live dashboards.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-solid" href="#projects">projects</a>
+        <a class="btn btn-ghost" href="resume.pdf" target="_blank" rel="noopener">resume</a>
+        <a class="btn btn-ghost" href="https://github.com/Narayan-Agarwal" target="_blank" rel="noopener">github</a>
+        <a class="btn btn-ghost" href="#contact">contact</a>
+      </div>
+    </section>
+
+    <!-- ============================ MANIFESTO =========================== -->
+    <!-- three short statements, each grounded in a real project (see DECISIONS.md) -->
+    <section class="manifesto" aria-labelledby="manifesto-label">
+      <p class="section-label" id="manifesto-label">01 / manifesto</p>
+      <ul class="manifesto-lines">
+        <li data-reveal>i start with the schema, not the screenshot<span class="accent">.</span></li>
+        <li data-reveal>if it isn't tested, it isn't finished<span class="accent">.</span></li>
+        <li data-reveal>i take projects from idea to deployment<span class="accent">.</span></li>
+      </ul>
+    </section>
+
+    <!-- pull-quote: the owner's own words from his LinkedIn summary (only
+         quote on the page — never invented) -->
+    <blockquote class="pull" data-reveal>
+      <p>&ldquo;building software that actually works in the real world.&rdquo;</p>
+      <cite>— from my linkedin summary</cite>
+    </blockquote>
+
+    <!-- ============================== ABOUT ============================= -->
+    <section class="about" id="about" aria-labelledby="about-title">
+      <p class="section-label">02 / about</p>
+      <h2 class="section-title" id="about-title">about</h2>
+      <div class="about-grid">
+        <figure class="about-photo" data-reveal>
+          <img src="photo.jpg" alt="Portrait of Narayan Agarwal" width="960" height="1280" loading="lazy">
+        </figure>
+        <div class="about-text" data-reveal>
+          <p>
+            i'm narayan agarwal, a final-year b.tech computer science student at
+            vssut burla (cgpa 8.55), looking for data engineering, software
+            engineering and data analyst roles.
+          </p>
+          <p>
+            i like projects that work end to end: an air-quality forecasting
+            platform for ten odisha cities, an esports analytics platform on a
+            postgresql warehouse, a job-market intelligence tool, and a
+            bgp/rpki routing-security validator. most of them are live on
+            streamlit — not stuck in notebooks.
+          </p>
+          <p>
+            outside coursework: a google data analytics certificate, an ibm
+            skillsbuild frontend internship, and two years of running finances
+            and events for campus clubs like enigma-vssut and vssutmun.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================ PROJECTS ============================ -->
+    <!-- every card below is written from the repo's own README. live links
+         appear only where a real demo URL exists inside the repo. -->
+    <section class="projects" id="projects" aria-labelledby="projects-title">
+      <p class="section-label">03 / projects</p>
+      <h2 class="section-title" id="projects-title">selected work</h2>
+
+      <article class="project" data-reveal>
+        <p class="project-index" aria-hidden="true">01</p>
+        <div class="project-body">
+          <h3 class="project-title">metamind</h3>
+          <p class="project-tagline">esports analytics platform — 158 csvs pipelined into a postgresql warehouse, explored through a four-page streamlit dashboard.</p>
+          <p class="project-row"><strong>the problem —</strong> competitive valorant stats exist only as hundreds of raw kaggle csvs; there is no clean way to query, rank or compare players across seasons.</p>
+          <p class="project-row"><strong>what i built —</strong> an etl pipeline (normalize → clean → dedup → validate → batch upsert) feeding a nine-table normalised postgresql schema with two materialized views for percentile and consistency scoring using sql window functions; a four-page streamlit dashboard with plotly radar, scatter and gauge charts plus query-level caching; 24 unit tests running in github actions ci.</p>
+          <ul class="tags" aria-label="stack">
+            <li>python</li><li>postgresql</li><li>sqlalchemy</li><li>streamlit</li><li>plotly</li><li>pytest</li><li>github actions</li>
+          </ul>
+          <p class="project-links">
+            <a href="https://github.com/Narayan-Agarwal/metamind" target="_blank" rel="noopener">view repo&nbsp;↗</a>
+            <a href="https://metamind-uww554njd8jwjzee7oupfr.streamlit.app/" target="_blank" rel="noopener">live demo&nbsp;↗</a>
+          </p>
+        </div>
+      </article>
+
+      <article class="project" data-reveal>
+        <p class="project-index" aria-hidden="true">02</p>
+        <div class="project-body">
+          <h3 class="project-title">odisha-aqi-advisor</h3>
+          <p class="project-tagline">next-day air-quality prediction for ten odisha cities across the industrial corridor, built with xgboost and shipped as a live app.</p>
+          <p class="project-row"><strong>the problem —</strong> odisha's industrial-corridor cities consistently record its highest aqi, but the underlying station data is sparse, messy and hard to turn into a usable forecast.</p>
+          <p class="project-row"><strong>what i built —</strong> a four-notebook pipeline (cleaning → feature engineering → eda → modelling) with lag and seasonal features (monsoon, diwali, industrial peak); an xgboost regressor benchmarked against a linear baseline, with saved per-city models; the readme keeps an honest known-limitations section (no weather data, training window 2019–2023).</p>
+          <ul class="tags" aria-label="stack">
+            <li>python</li><li>xgboost</li><li>jupyter</li><li>streamlit</li>
+          </ul>
+          <p class="project-links">
+            <a href="https://github.com/Narayan-Agarwal/odisha-aqi-advisor" target="_blank" rel="noopener">view repo&nbsp;↗</a>
+            <a href="https://odisha-aqi-advisor.streamlit.app/" target="_blank" rel="noopener">live app&nbsp;↗</a>
+          </p>
+        </div>
+      </article>
+
+      <article class="project" data-reveal>
+        <p class="project-index" aria-hidden="true">03</p>
+        <div class="project-body">
+          <h3 class="project-title">skillscope</h3>
+          <p class="project-tagline">job-market intelligence — what skills real postings demand, ninety-one companies to explore, and a resume that scores itself against a job description.</p>
+          <p class="project-row"><strong>the problem —</strong> students can't see which skills the market actually asks for, or which ones their own resume is missing for a specific role.</p>
+          <p class="project-row"><strong>what i built —</strong> a skill-demand dashboard and role × skill heatmap from kaggle + adzuna job data; an explorer for 91 companies across 6 tiers; a resume gap analyzer that parses a pdf resume, compares it to a job description and returns a match score with prioritised gap skills, backed by a 250+-entry skill taxonomy, sqlite storage and pytest + hypothesis tests.</p>
+          <ul class="tags" aria-label="stack">
+            <li>python</li><li>streamlit</li><li>sqlite</li><li>plotly</li><li>pytest</li><li>hypothesis</li>
+          </ul>
+          <p class="project-links">
+            <a href="https://github.com/Narayan-Agarwal/SkillScope" target="_blank" rel="noopener">view repo&nbsp;↗</a>
+            <a href="https://skillscopeplatform.streamlit.app" target="_blank" rel="noopener">live app&nbsp;↗</a>
+          </p>
+        </div>
+      </article>
+
+      <article class="project" data-reveal>
+        <p class="project-index" aria-hidden="true">04</p>
+        <div class="project-body">
+          <h3 class="project-title">bgp-security-rpki-validator</h3>
+          <p class="project-tagline">route-origin validation for bgp — detect a cryptographically invalid route in python, then reject it on real frr routers.</p>
+          <p class="project-row"><strong>the problem —</strong> bgp runs on trust: any unauthorised system can announce someone else's prefix and redirect traffic. rpki adds cryptographic proof of who may originate a route.</p>
+          <p class="project-row"><strong>what i built —</strong> a two-part hybrid: a tkinter gui detection core that checks a route's origin as against an rpki cache and marks it valid/invalid, and an enforcement core on linux vms running frrouting, configured to reject the invalid route. the demo hijacks the well-known 8.8.8.0/24 prefix from unauthorised as 65535 — the system flags it invalid and the router drops it (<code>show ip bgp</code> returns "network not in table").</p>
+          <ul class="tags" aria-label="stack">
+            <li>python</li><li>tkinter</li><li>frrouting</li><li>linux</li>
+          </ul>
+          <p class="project-links">
+            <a href="https://github.com/Narayan-Agarwal/BGP-SECURITY-RPKI-VALIDATOR" target="_blank" rel="noopener">view repo&nbsp;↗</a>
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <!-- ============================== SKILLS ============================ -->
+    <section class="skills" id="skills" aria-labelledby="skills-title">
+      <p class="section-label">04 / skills</p>
+      <h2 class="section-title" id="skills-title">skills</h2>
+
+      <!-- decorative scrolling strip (duplicated list is aria-hidden;
+           the accessible skill lists are the two groups below) -->
+      <div class="marquee" aria-hidden="true">
+        <ul class="marquee-track">
+          <li>python</li><li>postgresql</li><li>sqlalchemy</li><li>flask</li><li>streamlit</li><li>xgboost</li><li>machine learning</li><li>c++</li><li>sql</li><li>etl pipelines</li><li>plotly</li><li>pytest</li><li>jupyter</li><li>sqlite</li><li>git &amp; github</li><li>github actions</li><li>frrouting</li><li>linux</li>
+          <!-- duplicated for the seamless loop -->
+          <li>python</li><li>postgresql</li><li>sqlalchemy</li><li>flask</li><li>streamlit</li><li>xgboost</li><li>machine learning</li><li>c++</li><li>sql</li><li>etl pipelines</li><li>plotly</li><li>pytest</li><li>jupyter</li><li>sqlite</li><li>git &amp; github</li><li>github actions</li><li>frrouting</li><li>linux</li>
+        </ul>
+      </div>
+
+      <div class="skills-grid" data-reveal>
+        <div class="skills-group">
+          <h3>core</h3>
+          <ul class="tags tags-big">
+            <li>python</li>
+            <li>postgresql</li>
+            <li>sqlalchemy</li>
+            <li>flask</li>
+            <li>streamlit</li>
+            <li>xgboost / machine learning</li>
+            <li>c++</li>
+          </ul>
+        </div>
+        <div class="skills-group">
+          <h3>also used across the projects above</h3>
+          <ul class="tags">
+            <li>sql · window functions</li>
+            <li>etl pipeline design</li>
+            <li>plotly</li>
+            <li>sqlite</li>
+            <li>pytest · hypothesis</li>
+            <li>github actions</li>
+            <li>jupyter</li>
+            <li>frrouting · linux</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================ EDUCATION =========================== -->
+    <section class="education" id="education" aria-labelledby="education-title">
+      <p class="section-label">05 / education</p>
+      <h2 class="section-title" id="education-title">education</h2>
+      <div class="edu-list" data-reveal>
+        <div class="edu-item">
+          <h3>b.tech, computer science &amp; engineering</h3>
+          <p class="edu-place">veer surendra sai university of technology (vssut), burla</p>
+          <p class="edu-meta">2023 – 2027 · cgpa 8.55</p>
+        </div>
+        <div class="edu-item">
+          <h3>class xii, science</h3>
+          <p class="edu-place">dav schools network</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============== EXPERIENCE / CERTIFICATIONS / HONORS ============= -->
+    <section class="credentials" id="experience" aria-labelledby="experience-title">
+      <p class="section-label">06 / experience</p>
+      <h2 class="section-title" id="experience-title">experience &amp; credentials</h2>
+
+      <div class="cred-grid" data-reveal>
+        <div class="cred-group">
+          <h3>experience</h3>
+          <ul class="cred-list">
+            <li>
+              <span class="cred-role">frontend web development intern</span>
+              <span class="cred-org">ibm skillsbuild</span>
+              <span class="cred-dates">jun 2024 – aug 2024</span>
+            </li>
+            <li>
+              <span class="cred-role">public relations lead · social media handler · content writer</span>
+              <span class="cred-org">enigma — vssut</span>
+              <span class="cred-dates">apr 2024 – aug 2026</span>
+            </li>
+            <li>
+              <span class="cred-role">treasurer</span>
+              <span class="cred-org">literary society vssut (team vission)</span>
+              <span class="cred-dates">oct 2024 – aug 2026</span>
+            </li>
+            <li>
+              <span class="cred-role">content writer</span>
+              <span class="cred-org">yoga club, vssut, burla</span>
+              <span class="cred-dates">feb 2024 – aug 2026</span>
+            </li>
+            <li>
+              <span class="cred-role">junior associate</span>
+              <span class="cred-org">entrepreneurship cell, vssut</span>
+              <span class="cred-dates">jan 2024 – aug 2025</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="cred-group">
+          <h3>certifications</h3>
+          <ul class="cred-list">
+            <li>
+              <span class="cred-role">google data analytics professional certificate (v.3)</span>
+              <span class="cred-org">coursera</span>
+            </li>
+            <li>
+              <span class="cred-role">data analytics essentials</span>
+              <span class="cred-org">cisco</span>
+            </li>
+            <li>
+              <span class="cred-role">project management fundamentals</span>
+              <span class="cred-org">ibm skillsbuild</span>
+            </li>
+            <li>
+              <span class="cred-role">web development fundamentals</span>
+              <span class="cred-org">[TODO: issuer not stated in linkedin export]</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="cred-group">
+          <h3>honors</h3>
+          <ul class="cred-list">
+            <li>
+              <span class="cred-role">logistics secretary, secretariat</span>
+              <span class="cred-org">vssutmun 2025</span>
+            </li>
+            <li>
+              <span class="cred-role">treasurer</span>
+              <span class="cred-org">vssutmun 2026</span>
+            </li>
+            <li>
+              <span class="cred-role">organising committee member</span>
+              <span class="cred-org">[TODO: event not named in linkedin export]</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= CONTACT ============================ -->
+    <section class="contact" id="contact" aria-labelledby="contact-title">
+      <p class="section-label">07 / contact</p>
+      <h2 class="contact-title" id="contact-title">let's talk<span class="accent">.</span></h2>
+      <p class="contact-line" data-reveal>
+        open to data engineering, software engineering and data analyst roles —
+        email is the fastest way to reach me.
+      </p>
+      <div class="contact-actions" data-reveal>
+        <a class="btn btn-solid" href="mailto:narayanagrawal2468@gmail.com">email me</a>
+        <a class="btn btn-ghost" href="https://linkedin.com/in/narayanagarwal2327" target="_blank" rel="noopener">linkedin</a>
+        <a class="btn btn-ghost" href="https://github.com/Narayan-Agarwal" target="_blank" rel="noopener">github</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-foot">
+    <p>© 2026 narayan agarwal · built with ai coding assistance</p>
+    <p class="foot-links">
+      <a href="https://instagram.com/naru_ag_03" target="_blank" rel="noopener">instagram</a>
+      <a href="#top">back to top ↑</a>
+    </p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

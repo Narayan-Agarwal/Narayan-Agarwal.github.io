@@ -1,0 +1,552 @@
+/* ============================================================
+   narayan agarwal — portfolio styles
+   plain CSS, no framework. starts with design tokens (both
+   themes), then base layout, then each section in page order.
+   ============================================================ */
+
+/* ---------- 1. design tokens ---------- */
+
+/* dark theme (default): near-black page, off-white text */
+:root,
+[data-theme="dark"] {
+  --bg: #101010;
+  --bg-soft: #181818;          /* cards / subtle panels */
+  --text: #e8e6e1;             /* off-white body text   */
+  --text-muted: #a8a49c;       /* secondary text        */
+  --line: #2c2c2c;             /* hairline borders      */
+  --accent: #ff6b3a;           /* the one accent colour */
+  --accent-ink: #101010;       /* text on accent fills  */
+  --header-bg: rgba(16, 16, 16, 0.82);
+}
+
+/* light theme: warm paper, near-black text, same accent hue darkened */
+[data-theme="light"] {
+  --bg: #f5f2ec;
+  --bg-soft: #ece8df;
+  --text: #17150f;
+  --text-muted: #5d594f;
+  --line: #d8d3c7;
+  --accent: #b23a10;
+  --accent-ink: #f5f2ec;
+  --header-bg: rgba(245, 242, 236, 0.85);
+}
+
+/* ---------- 2. base ---------- */
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  /* sticky header height offset so anchors don't hide under it */
+  scroll-padding-top: 5.5rem;
+  /* kill any accidental horizontal scroll without breaking position:sticky */
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-size: 1.0625rem;      /* 17px */
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;          /* marquee / big type safety */
+}
+
+/* the particle canvas sits behind all content and never catches clicks.
+   explicit 100% CSS size so the layout box always matches the viewport,
+   independent of the drawing buffer's pixel size */
+#particles {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  display: block;
+}
+
+/* everything visible lives above the canvas */
+.site-head, main, .site-foot { position: relative; z-index: 1; }
+
+/* very soft accent glow behind the hero — static, costs nothing */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: -20% -10% auto;
+  height: 130%;
+  background: radial-gradient(ellipse 60% 45% at 55% 35%, color-mix(in srgb, var(--accent) 9%, transparent), transparent 70%);
+  pointer-events: none;
+}
+
+a { color: inherit; }
+
+::selection { background: var(--accent); color: var(--accent-ink); }
+
+/* keyboard focus: visible everywhere, accent-coloured */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* accessibility helpers */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -3rem;
+  z-index: 10;
+  background: var(--accent);
+  color: var(--accent-ink);
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  transition: top 0.2s ease;
+}
+.skip-link:focus { top: 1rem; }
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- 3. header ---------- */
+
+.site-head {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.9rem clamp(1.2rem, 4vw, 3rem);
+  background: var(--header-bg);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  margin-right: auto;
+}
+
+.site-nav { display: flex; gap: 1.4rem; }
+
+.site-nav a {
+  text-decoration: none;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+}
+.site-nav a:hover { color: var(--accent); }
+
+#theme-toggle {
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+#theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ---------- 4. shared building blocks ---------- */
+
+section {
+  padding: clamp(4rem, 9vw, 7.5rem) clamp(1.2rem, 5vw, 4.5rem);
+  max-width: 75rem;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-size: 0.85rem;
+  letter-spacing: 0.22em;
+  color: var(--accent);
+  margin: 0 0 0.6rem;
+}
+
+.section-title {
+  font-size: clamp(2.2rem, 6vw, 4.2rem);
+  font-weight: 700;
+  text-transform: lowercase;
+  line-height: 1.05;
+  margin: 0 0 2.2rem;
+  letter-spacing: -0.02em;
+}
+
+.accent { color: var(--accent); }
+
+/* buttons */
+.btn {
+  display: inline-block;
+  padding: 0.7rem 1.5rem;
+  border-radius: 999px;
+  font-weight: 500;
+  font-size: 1rem;
+  text-decoration: none;
+  border: 1px solid var(--line);
+  transition: transform 0.15s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.btn:hover { transform: translateY(-2px); }
+
+.btn-solid {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: transparent;
+}
+.btn-solid:hover { filter: brightness(1.08); }
+
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+/* scroll fade-in: only active when JS is running (html.js), and
+   switched off entirely for prefers-reduced-motion (see bottom) */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.js [data-reveal].revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- 5. hero ---------- */
+
+.hero {
+  min-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+.hero-kicker {
+  color: var(--text-muted);
+  font-size: clamp(0.85rem, 1.6vw, 1rem);
+  letter-spacing: 0.14em;
+  margin: 0 0 1rem;
+}
+
+.hero-name {
+  font-size: clamp(3.4rem, 9.5vw, 9rem);
+  font-weight: 700;
+  text-transform: lowercase;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  margin: 0 0 1.4rem;
+  overflow-wrap: break-word;   /* tiny screens: wrap instead of overflow */
+}
+
+.hero-line {
+  max-width: 34rem;
+  font-size: clamp(1.05rem, 2vw, 1.3rem);
+  color: var(--text-muted);
+  margin: 0 0 2.2rem;
+}
+
+.hero-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+
+/* ---------- 6. manifesto ---------- */
+
+.manifesto-lines {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.manifesto-lines li {
+  font-size: clamp(1.7rem, 5vw, 3.4rem);
+  font-weight: 700;
+  text-transform: lowercase;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.2rem;
+}
+
+/* pull-quote (the owner's own linkedin summary line) */
+.pull {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 0 clamp(1.2rem, 5vw, 4.5rem);
+  text-align: center;
+}
+.pull p {
+  font-size: clamp(1.4rem, 3.4vw, 2.1rem);
+  font-weight: 500;
+  line-height: 1.3;
+  margin: 0 0 0.8rem;
+}
+.pull cite {
+  font-style: normal;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+.pull { border: 0; }
+
+/* ---------- 7. about ---------- */
+
+.about-grid {
+  display: grid;
+  grid-template-columns: minmax(220px, 340px) 1fr;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: start;
+}
+
+.about-photo {
+  margin: 0;
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--bg-soft);
+}
+.about-photo img {
+  display: block;
+  width: 100%;
+  height: auto;           /* override the height attribute so aspect-ratio rules */
+  aspect-ratio: 3 / 4;
+  object-fit: cover;      /* crops the classroom portrait nicely */
+}
+
+.about-text p { margin: 0 0 1.2rem; max-width: 38rem; }
+
+/* ---------- 8. projects ---------- */
+
+.project {
+  display: grid;
+  grid-template-columns: minmax(3.5rem, 8rem) 1fr;
+  gap: 1.5rem;
+  padding: clamp(2rem, 4vw, 3.2rem) 0;
+  border-top: 1px solid var(--line);
+}
+
+.project-index {
+  font-size: clamp(2rem, 5vw, 3.6rem);
+  font-weight: 700;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-muted);  /* outlined ghost number */
+  line-height: 1;
+  margin: 0;
+}
+
+.project-title {
+  font-size: clamp(1.8rem, 4.5vw, 3.2rem);
+  font-weight: 700;
+  text-transform: lowercase;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.5rem;
+  line-height: 1.05;
+}
+
+.project-tagline {
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  color: var(--text-muted);
+  margin: 0 0 1.2rem;
+  max-width: 46rem;
+}
+
+.project-row { margin: 0 0 0.9rem; max-width: 46rem; }
+.project-row strong { color: var(--accent); font-weight: 500; }
+.project-row code {
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.9em;
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: 0.3rem;
+  padding: 0.05rem 0.35rem;
+}
+
+/* stack tags */
+.tags {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0;
+  margin: 1.2rem 0;
+}
+.tags li {
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.25rem 0.85rem;
+  color: var(--text-muted);
+}
+.tags-big li { font-size: 1rem; color: var(--text); }
+
+.project-links { display: flex; gap: 1.6rem; margin: 0.4rem 0 0; }
+.project-links a {
+  color: var(--accent);
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+.project-links a:hover { border-color: var(--accent); }
+
+/* ---------- 9. skills ---------- */
+
+/* horizontally scrolling strip — pure CSS. the track holds the list
+   twice; animating to -50% gives a seamless loop. pauses on hover. */
+.marquee {
+  overflow: hidden;
+  border-block: 1px solid var(--line);
+  padding: 1.1rem 0;
+  margin-bottom: 2.6rem;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.marquee-track {
+  list-style: none;
+  display: flex;
+  gap: 2.6rem;
+  width: max-content;
+  margin: 0;
+  padding: 0;
+  animation: marquee 46s linear infinite;
+}
+.marquee-track li {
+  font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+  font-weight: 500;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.marquee-track li::after {
+  content: "·";
+  color: var(--accent);
+  margin-left: 2.6rem;
+}
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track { animation-play-state: paused; }
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  gap: 2.5rem;
+}
+.skills-group h3 {
+  font-size: 0.9rem;
+  letter-spacing: 0.18em;
+  text-transform: lowercase;
+  color: var(--accent);
+  margin: 0 0 1rem;
+  font-weight: 500;
+}
+
+/* ---------- 10. education ---------- */
+
+.edu-list { display: grid; gap: 1.6rem; max-width: 46rem; }
+.edu-item {
+  border-left: 2px solid var(--accent);
+  padding-left: 1.4rem;
+}
+.edu-item h3 { margin: 0; font-size: 1.25rem; }
+.edu-place { margin: 0.15rem 0 0; color: var(--text-muted); }
+.edu-meta { margin: 0.15rem 0 0; color: var(--accent); font-size: 0.95rem; }
+
+/* ---------- 11. experience / certifications / honors ---------- */
+
+.cred-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  gap: 2.5rem;
+}
+
+.cred-group h3 {
+  font-size: 0.9rem;
+  letter-spacing: 0.18em;
+  text-transform: lowercase;
+  color: var(--accent);
+  margin: 0 0 1.1rem;
+  font-weight: 500;
+}
+
+.cred-list { list-style: none; margin: 0; padding: 0; }
+.cred-list li {
+  padding: 0.85rem 0;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+.cred-role { font-weight: 500; }
+.cred-org { color: var(--text-muted); font-size: 0.95rem; }
+.cred-dates { color: var(--text-muted); font-size: 0.85rem; letter-spacing: 0.06em; }
+
+/* ---------- 12. contact ---------- */
+
+.contact { text-align: center; padding-bottom: 6rem; }
+
+.contact-title {
+  font-size: clamp(3rem, 10vw, 7.5rem);
+  font-weight: 700;
+  text-transform: lowercase;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin: 0 0 1.2rem;
+}
+
+.contact-line { color: var(--text-muted); max-width: 34rem; margin: 0 auto 2.2rem; }
+
+.contact-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.8rem; }
+
+/* ---------- 13. footer ---------- */
+
+.site-foot {
+  border-top: 1px solid var(--line);
+  padding: 1.6rem clamp(1.2rem, 5vw, 4.5rem) 2.2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 2rem;
+  justify-content: space-between;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.site-foot p { margin: 0; }
+.site-foot a { color: var(--text-muted); text-decoration: none; }
+.site-foot a:hover { color: var(--accent); }
+.foot-links { display: flex; gap: 1.4rem; }
+
+/* ---------- 14. responsive tweaks ---------- */
+
+@media (max-width: 720px) {
+  .about-grid { grid-template-columns: 1fr; }
+  .about-photo { max-width: 300px; }
+  .project { grid-template-columns: 1fr; gap: 0.6rem; }
+  .project-index { font-size: 2.4rem; }
+  .site-nav { display: none; }   /* anchors stay reachable via hero buttons + footer */
+  .hero { min-height: 80vh; }
+}
+
+/* ---------- 15. reduced motion: everything static ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  #particles { display: none; }         /* JS also refuses to start it */
+
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .marquee-track { animation: none; }   /* strip becomes a static row */
+
+  .btn:hover { transform: none; }
+}
